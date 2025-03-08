@@ -38,3 +38,4 @@ variable "ssh_public_key" {
 resource "aws_key_pair" "my_key" {
   key_name   = "my_key"  # Name of the key pair in AWS
   public_key = var.ssh_public_key  # Use the value passed from GitHub Actions (via the secret)
+}
