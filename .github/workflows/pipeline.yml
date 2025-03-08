@@ -58,6 +58,19 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
+      - name: honey
+        run: sleep 100
+
+      - name: Save Private Key as File
+        run: |
+          terraform output -raw private_key > private_key.pem
+
+      - name: Upload Private Key as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: private-key
+          path: private_key.pem
+
       - name: Wait for 5 minutes before destroying resources
         run: sleep 300 # sleep for 300 seconds (5 minutes)
 
