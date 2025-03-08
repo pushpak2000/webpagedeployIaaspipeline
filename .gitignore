@@ -1,0 +1,84 @@
+# Local .terraform directories
+.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Terraform lock files
+.terraform.lock.hcl
+
+# Terraform variable files
+*.tfvars
+*.tfvars.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Plan files
+*.tfplan
+*tfplan.*
+
+# Log files
+*.log
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Exclude sensitive files containing credentials
+*.pem
+*.key
+secrets.tfvars
+
+# Large file types
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.iso
+*.bin
+*.exe
+*.msi
+*.pkg
+*.dmg
+*.mp4
+*.mov
+*.avi
+*.wmv
+*.flv
+*.mkv
+*.db
+*.sqlite
+*.sqlite3
+*.bak
+*.backup
+*.dump
+
+# Node modules and dependencies
+node_modules/
+dist/
+build/
+
+# Python virtual environments and cache
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
