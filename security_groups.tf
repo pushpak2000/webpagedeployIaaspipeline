@@ -30,7 +30,11 @@ resource "aws_security_group" "nginx-sg" {
   }
 }
 
-resource "aws_key_pair" "my_key" {
-  key_name   = "my_key"
-  public_key = file("C:/Users/pushpak/.ssh/id_ed25519.pub")  # Update to your public key file location
+variable "ssh_public_key" {
+  description = "SSH public key to create the key pair"
+  type        = string
 }
+
+resource "aws_key_pair" "my_key" {
+  key_name   = "my_key"  # Name of the key pair in AWS
+  public_key = var.ssh_public_key  # Use the value passed from GitHub Actions (via the secret)

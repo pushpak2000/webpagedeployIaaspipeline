@@ -1,4 +1,4 @@
-name: Terraform CI/CD Pipeline with Docker Image
+name: Terraform CI/CD
 
 on:
   push:
@@ -29,36 +29,7 @@ jobs:
       # Build Docker image
       - name: Build Docker Image
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64 -t gitkeeper05/wanttotestendtoendcicd:latest --push .
-
-      # Set SSH Public Key as a Terraform Variable -> this will make it available for pipepline env
-      - name: Set SSH Public Key for Terraform
-        run: echo "ssh_public_key=${{ secrets.AWS_SSH_PUBLIC_KEY }}" >> $GITHUB_ENV
-      #Install terra form on brum brum
-      - name: Setting up Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      # Set up Terraform Cloud Token as an environment variable (Do it not done yet)
-      - name: Set up Terraform Cloud Token
-        run: echo "TERRAFORM_CLOUD_TOKEN=${{ secrets.TERRAFORM_CLOUD_TOKEN }}" >> $GITHUB_ENV
-
-      - name: Run Terraform login script
-        run: |
-          echo '#!/bin/bash
-          TOKEN=${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          TF_CREDENTIALS_FILE="$HOME/.terraform.d/credentials.tfrc.json"
-          mkdir -p "$(dirname "$TF_CREDENTIALS_FILE")"
-          printf '\''{
-          "credentials": {
-            "app.terraform.io": {
-              "token": "%s"
-            }
-          }
-          }'\'' "$TOKEN" > "$TF_CREDENTIALS_FILE"
-          echo "Token saved to $TF_CREDENTIALS_FILE"
-          ' > terraform-login.sh
-          chmod +x terraform-login.sh
-          ./terraform-login.sh
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/testingthecd:latest --push .
 
       # Initialize Terraform
       - name: Terraform Init
@@ -70,8 +41,12 @@ jobs:
 
       # Plan Terraform deployment
       - name: Terraform Plan
-        run: terraform plan -out=tfplan -var="ssh_public_key=${{ secrets.AWS_SSH_PUBLIC_KEY }}"
+        env:
+          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+        run: terraform plan
 
       # Apply Terraform configuration
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        env:
+          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+        run: terraform apply -auto-approve
