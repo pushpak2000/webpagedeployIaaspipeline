@@ -45,15 +45,11 @@ jobs:
 
       # Plan Terraform deployment
       - name: Terraform Plan
-        env:
-          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
-        run: terraform plan -var "ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}"
+        run: terraform plan
 
       # Apply Terraform configuration
       - name: Terraform Apply
-        env:
-          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
-        run: terraform apply -auto-approve -var "ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}"
+        run: terraform apply -auto-approve
 
       - name: Wait for 5 minutes before destroying resources
         run: sleep 300 # sleep for 300 seconds (5 minutes)
