@@ -82,3 +82,7 @@ __pycache__/
 *.swo
 .DS_Store
 Thumbs.db
+
+
+#personal
+thingstodointhis.txt
